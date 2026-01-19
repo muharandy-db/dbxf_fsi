@@ -32,7 +32,7 @@ In this workshop, you will:
 
 1. Navigate to [https://www.databricks.com/try-databricks](https://www.databricks.com/try-databricks)
 2. Click on "Get started for free" or "Try Databricks"
-3. Select **"Community Edition"** (the free tier)
+3. Select **"Free Edition"** (the free tier)
 4. Fill in your registration details:
    - Email address
    - First and last name
