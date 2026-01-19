@@ -1,0 +1,21 @@
+transaction_id,transaction_date,customer_id,product_category,product_name,quantity,unit_price,total_amount,payment_method,store_location,payment_status
+TXN001,2024-01-15,CUST10234,Electronics,Laptop,1,1299.99,1299.99,Credit Card,New York,Completed
+TXN002,2024-01-15,CUST10456,Clothing,Winter Jacket,2,89.50,179.00,Debit Card,Los Angeles,Completed
+TXN003,2024-01-16,CUST10789,Home & Garden,Coffee Maker,1,79.99,79.99,Credit Card,Chicago,Completed
+TXN004,2024-01-16,CUST10234,Electronics,Wireless Mouse,3,24.99,74.97,Credit Card,New York,Completed
+TXN005,2024-01-17,CUST11023,Groceries,Organic Produce Box,1,45.00,45.00,Cash,Miami,Completed
+TXN006,2024-01-17,CUST11256,Electronics,Smartphone,1,899.00,899.00,Credit Card,Seattle,Pending
+TXN007,2024-01-18,CUST10456,Books,Business Strategy,2,32.50,65.00,Debit Card,Los Angeles,Completed
+TXN008,2024-01-18,CUST11489,Sports & Outdoors,Running Shoes,1,129.99,129.99,Credit Card,Boston,Completed
+TXN009,2024-01-19,CUST10789,Home & Garden,Plant Set,4,15.99,63.96,Debit Card,Chicago,Completed
+TXN010,2024-01-19,CUST11712,Electronics,Tablet,1,449.99,449.99,Credit Card,Denver,Failed
+TXN011,2024-01-20,CUST10234,Groceries,Weekly Shopping,1,156.78,156.78,Debit Card,New York,Completed
+TXN012,2024-01-20,CUST11945,Clothing,Casual Shirt,3,39.99,119.97,Credit Card,Phoenix,Completed
+TXN013,2024-01-21,CUST11023,Electronics,Headphones,1,199.99,199.99,Credit Card,Miami,Completed
+TXN014,2024-01-21,CUST12178,Home & Garden,Dining Table,1,599.00,599.00,Credit Card,Portland,Pending
+TXN015,2024-01-22,CUST11256,Books,Fiction Novel,5,18.99,94.95,Debit Card,Seattle,Completed
+TXN016,2024-01-22,CUST10456,Sports & Outdoors,Yoga Mat,2,34.99,69.98,Cash,Los Angeles,Completed
+TXN017,2024-01-23,CUST11489,Electronics,Smart Watch,1,349.99,349.99,Credit Card,Boston,Completed
+TXN018,2024-01-23,CUST12401,Groceries,Snack Bundle,3,12.99,38.97,Debit Card,Austin,Completed
+TXN019,2024-01-24,CUST10789,Clothing,Winter Boots,1,149.99,149.99,Credit Card,Chicago,Completed
+TXN020,2024-01-24,CUST11712,Electronics,Gaming Console,1,499.99,499.99,Credit Card,Denver,Completed
