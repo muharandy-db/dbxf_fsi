@@ -259,7 +259,9 @@ def sales_transactions_bronze():
 
 Alternatively, you can also ask Databricks Assistant to generate the code by giving the following prompt:
 ```
-use spark declarative pipeline to load data located in /Volumes/main/dbdemos_fsi_credit_decisioning/credit_raw_data/additional/ into streaming table with the name sales_transaction_bronze
+use spark declarative pipeline to load data located in 
+/Volumes/main/dbdemos_fsi_credit_decisioning/credit_raw_data/additional/ 
+into streaming table with the name sales_transaction_bronze
 ```
 
 if you want to take the vibe data engineering even further you can highlight the code above then use databricks assistant to add data quality check by adding this prompt
@@ -274,19 +276,19 @@ add data quality check to ensure that total_amount is greater than 0
 Create another notebook in the same directory: **`05-silver-sales`**
 
 ```python
-import dlt
+from pyspark import pipelines as dp
 from pyspark.sql.functions import *
 
-@dlt.table(
+@dp.table(
     name="sales_transactions_silver",
     comment="Silver layer: Cleaned and validated sales transactions",
     table_properties={
         "quality": "silver"
     }
 )
-@dlt.expect_or_drop("valid_transaction_id", "transaction_id IS NOT NULL")
-@dlt.expect_or_drop("valid_amount", "total_amount > 0")
-@dlt.expect_or_drop("valid_quantity", "quantity > 0")
+@dp.expect_or_drop("valid_transaction_id", "transaction_id IS NOT NULL")
+@dp.expect_or_drop("valid_amount", "total_amount > 0")
+@dp.expect_or_drop("valid_quantity", "quantity > 0")
 def sales_transactions_silver():
     return (
         dlt.read_stream("sales_transactions_bronze")
@@ -305,11 +307,11 @@ def sales_transactions_silver():
 Create another notebook: **`06-gold-sales`**
 
 ```python
-import dlt
+from pyspark import pipelines as dp
 from pyspark.sql.functions import *
 from pyspark.sql.window import Window
 
-@dlt.table(
+@dp.table(
     name="customer_sales_summary_gold",
     comment="Gold layer: Customer-level sales aggregations",
     table_properties={
@@ -359,10 +361,10 @@ SDP supports three types of expectations:
 Edit your **`05-silver-sales`** notebook and update it:
 
 ```python
-import dlt
+from pyspark import pipelines as dp
 from pyspark.sql.functions import *
 
-@dlt.table(
+@dp.table(
     name="sales_transactions_silver",
     comment="Silver layer: Cleaned and validated sales transactions",
     table_properties={
@@ -370,19 +372,19 @@ from pyspark.sql.functions import *
     }
 )
 # Critical expectations - drop invalid rows
-@dlt.expect_or_drop("valid_transaction_id", "transaction_id IS NOT NULL")
-@dlt.expect_or_drop("valid_customer_id", "customer_id IS NOT NULL AND customer_id != ''")
-@dlt.expect_or_drop("valid_amount", "total_amount > 0")
-@dlt.expect_or_drop("valid_quantity", "quantity > 0 AND quantity <= 1000")
-@dlt.expect_or_drop("valid_unit_price", "unit_price > 0")
+@dp.expect_or_drop("valid_transaction_id", "transaction_id IS NOT NULL")
+@dp.expect_or_drop("valid_customer_id", "customer_id IS NOT NULL AND customer_id != ''")
+@dp.expect_or_drop("valid_amount", "total_amount > 0")
+@dp.expect_or_drop("valid_quantity", "quantity > 0 AND quantity <= 1000")
+@dp.expect_or_drop("valid_unit_price", "unit_price > 0")
 
 # Warning expectations - track but don't drop
-@dlt.expect("reasonable_amount", "total_amount <= 10000")
-@dlt.expect("valid_date_range", "transaction_date >= '2024-01-01' AND transaction_date <= current_date()")
-@dlt.expect("known_payment_method", "payment_method IN ('Credit Card', 'Debit Card', 'Cash', 'PayPal')")
+@dp.expect("reasonable_amount", "total_amount <= 10000")
+@dp.expect("valid_date_range", "transaction_date >= '2024-01-01' AND transaction_date <= current_date()")
+@dp.expect("known_payment_method", "payment_method IN ('Credit Card', 'Debit Card', 'Cash', 'PayPal')")
 
 # Validation rule: total_amount should equal quantity * unit_price (with small rounding tolerance)
-@dlt.expect("amount_matches_calculation", "ABS(total_amount - (quantity * unit_price)) < 0.01")
+@dp.expect("amount_matches_calculation", "ABS(total_amount - (quantity * unit_price)) < 0.01")
 
 def sales_transactions_silver():
     return (
@@ -429,7 +431,7 @@ Spark Declarative Pipelines support various data sources. Here are the most comm
 While we won't implement this in the workshop, here's how you would ingest from Kafka:
 
 ```python
-@dlt.table(name="transactions_from_kafka")
+@dp.table(name="transactions_from_kafka")
 def kafka_stream():
     return (
         spark.readStream
