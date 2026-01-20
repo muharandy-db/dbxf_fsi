@@ -651,7 +651,7 @@ Please:
 3. Split data into training (70%) and testing (30%) sets
 
 4. Train a classification model to predict payment_status (Completed, Pending, or Failed)
-   - Use Random Forest or XGBoost
+   - use Random Forest from sklearn library
 
 5. Evaluate the model with these metrics:
    - Accuracy, Precision, Recall, F1-score
@@ -660,33 +660,10 @@ Please:
 
 6. Show feature importance to understand key drivers of payment status
 
-7. Register the best model in MLflow with the name "sales_payment_prediction"
+7. Register the model in Unity Catalog with the name "main.dbdemos_fsi_credit_decisioning.sales_payment_pred"
+   - don't forget to infer model signature and use the signature when registering the model
 
 Use best practices for ML workflows and explain each step.
-```
-
-**Review and execute** the generated code.
-
-### Step 9.4: Register Model in Unity Catalog
-
-After the model is trained, ensure it's registered:
-
-```python
-import mlflow
-from mlflow.tracking import MlflowClient
-
-client = MlflowClient()
-
-# Get the latest run
-experiment = mlflow.get_experiment_by_name("/Users/your-email@domain.com/AI-Assisted-Sales-Analysis")
-runs = mlflow.search_runs(experiment_ids=[experiment.experiment_id])
-best_run_id = runs.sort_values('metrics.accuracy', ascending=False).iloc[0]['run_id']
-
-# Register model in Unity Catalog
-model_name = "main.dbdemos_fsi_credit_decisioning.sales_payment_prediction"
-model_uri = f"runs:/{best_run_id}/model"
-
-mlflow.register_model(model_uri, model_name)
 ```
 
 ---
