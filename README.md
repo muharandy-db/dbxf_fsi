@@ -597,7 +597,7 @@ Now let's explore an alternative approach using Databricks Assistant (AI-powered
 ### Step 9.1: Create a New Notebook for AI-Assisted Analysis
 
 1. In **Workspace**, navigate to your user folder
-2. Create a new notebook: **`AI-Assisted-Sales-Analysis`**
+2. Create a new notebook: **`AI-Assisted-Credit-Analysis`**
 3. Select **Python** as the language
 
 ### Step 9.2: Use Databricks Assistant for Exploratory Data Analysis
@@ -607,41 +607,70 @@ Click the **Assistant** button (usually a sparkle icon ✨ or "AI" button) in th
 **Copy and paste this prompt into the Assistant**:
 
 ```
-Please perform exploratory data analysis on the table
-main.dbdemos_fsi_credit_decisioning.sales_transactions_silver
+Please perform exploratory data analysis on credit bureau data joined with customer features.
 
-1. Show basic statistics for all columns
-2. Create visualizations for:
-   - Distribution of transactions by product category
-   - Transaction trends over time
-   - Payment method distribution
-   - Top 5 customers by total spending
-3. Identify any patterns or anomalies in the data
-4. Check for missing values and data quality issues
+1. First, create a dataset by joining these tables on cust_id:
+   - main.dbdemos_fsi_credit_decisioning.credit_bureau_gold
+   - main.dbdemos_fsi_credit_decisioning.credit_decisioning_features
+
+2. Add a binary label column called "defaulted":
+   - Set to 1 when credit_bureau_gold.CREDIT_DAY_OVERDUE > 60
+   - Set to 0 otherwise
+
+3. Show basic statistics for all columns in the joined dataset
+
+4. Create visualizations for:
+   - Distribution of defaulted vs non-defaulted customers
+   - Correlation heatmap of key numerical features
+   - Distribution of CREDIT_DAY_OVERDUE
+   - Default rate by customer segments or key features
+
+5. Identify patterns that differentiate defaulted vs non-defaulted customers
+
+6. Check for missing values and data quality issues
 
 Generate executable code cells with explanations.
 ```
 
-**Execute the generated code** to explore your sales data.
+**Execute the generated code** to explore the credit risk data.
 
 ### Step 9.3: Build a Predictive Model with AI Assistance
 
 In a new cell, click the Assistant again and use this prompt:
 
 ```
-Using the table main.dbdemos_fsi_credit_decisioning.sales_transactions_silver,
-create a machine learning model to predict payment_status (whether a
-transaction will be Completed, Pending, or Failed).
+Build a machine learning model to predict customer credit default risk.
 
 Please:
-1. Prepare the data with appropriate feature engineering
-2. Split into training and testing sets
-3. Train a classification model using scikit-learn or MLlib
-4. Evaluate the model performance with metrics
-5. Register the best model in MLflow with the name "sales_payment_prediction"
-6. Show feature importance
+1. Use the dataset created from joining:
+   - main.dbdemos_fsi_credit_decisioning.credit_bureau_gold
+   - main.dbdemos_fsi_credit_decisioning.credit_decisioning_features
+   On cust_id
 
-Use best practices for ML workflows.
+2. Create the target variable "defaulted":
+   - 1 when credit_bureau_gold.CREDIT_DAY_OVERDUE > 60
+   - 0 otherwise
+
+3. Perform appropriate feature engineering:
+   - Handle missing values
+   - Encode categorical variables if any
+   - Select relevant features for prediction
+   - Scale numerical features if needed
+
+4. Split data into training (70%) and testing (30%) sets
+
+5. Train a binary classification model (Random Forest or XGBoost preferred)
+
+6. Evaluate the model with these metrics:
+   - Accuracy, Precision, Recall, F1-score
+   - ROC-AUC curve
+   - Confusion matrix
+
+7. Show feature importance to understand key drivers of default
+
+8. Register the best model in MLflow with the name "credit_default_prediction"
+
+Use best practices for ML workflows and explain each step.
 ```
 
 **Review and execute** the generated code.
@@ -657,12 +686,12 @@ from mlflow.tracking import MlflowClient
 client = MlflowClient()
 
 # Get the latest run
-experiment = mlflow.get_experiment_by_name("/Users/your-email@domain.com/AI-Assisted-Sales-Analysis")
+experiment = mlflow.get_experiment_by_name("/Users/your-email@domain.com/AI-Assisted-Credit-Analysis")
 runs = mlflow.search_runs(experiment_ids=[experiment.experiment_id])
-best_run_id = runs.sort_values('metrics.accuracy', ascending=False).iloc[0]['run_id']
+best_run_id = runs.sort_values('metrics.f1_score', ascending=False).iloc[0]['run_id']
 
 # Register model in Unity Catalog
-model_name = "main.dbdemos_fsi_credit_decisioning.sales_payment_prediction"
+model_name = "main.dbdemos_fsi_credit_decisioning.credit_default_prediction"
 model_uri = f"runs:/{best_run_id}/model"
 
 mlflow.register_model(model_uri, model_name)
