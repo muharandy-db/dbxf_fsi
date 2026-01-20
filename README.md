@@ -291,7 +291,7 @@ from pyspark.sql.functions import *
 @dp.expect_or_drop("valid_quantity", "quantity > 0")
 def sales_transactions_silver():
     return (
-        dlt.read_stream("sales_transactions_bronze")
+        dp.read_stream("sales_transactions_bronze")
         .filter(col("payment_status").isin(["Completed", "Pending"]))
         .withColumn("transaction_year", year(col("transaction_date")))
         .withColumn("transaction_month", month(col("transaction_date")))
@@ -320,7 +320,7 @@ from pyspark.sql.window import Window
 )
 def customer_sales_summary_gold():
     return (
-        dlt.read("sales_transactions_silver")
+        dp.read("sales_transactions_silver")
         .groupBy("customer_id")
         .agg(
             count("transaction_id").alias("total_transactions"),
@@ -388,7 +388,7 @@ from pyspark.sql.functions import *
 
 def sales_transactions_silver():
     return (
-        dlt.read_stream("sales_transactions_bronze")
+        dp.read_stream("sales_transactions_bronze")
         .filter(col("payment_status").isin(["Completed", "Pending"]))
         .withColumn("transaction_year", year(col("transaction_date")))
         .withColumn("transaction_month", month(col("transaction_date")))
