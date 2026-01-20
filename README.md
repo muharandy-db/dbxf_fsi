@@ -110,8 +110,8 @@ Follow these steps to update the notebook:
    in the context of reading `credit_decisioning_features`
 
 6. **Remove the `.cache()` call** from that line.
-   - Before: `features_df = feature_table.read().cache()`
-   - After: `features_df = feature_table.read()`
+   - Before: `.withColumn("prediction", loaded_model(F.struct(*features))).cache()`
+   - After: `.withColumn("prediction", loaded_model(F.struct(*features)))`
 
 7. Save the notebook (Cmd+S or Ctrl+S)
 
@@ -222,10 +222,10 @@ Now you'll create a pipeline to ingest additional sales transaction data into th
 In the first cell, add the following code:
 
 ```python
-import dlt
+from pyspark import pipelines as dp
 from pyspark.sql.functions import *
 
-@dlt.table(
+@dp.table(
     name="sales_transactions_bronze",
     comment="Bronze layer: Raw sales transaction data from CSV",
     table_properties={
