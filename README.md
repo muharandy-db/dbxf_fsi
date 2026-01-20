@@ -95,11 +95,11 @@ Follow these steps to update the notebook:
 2. Open the notebook: **`03.3-Batch-Scoring-credit-decisioning`**
 3. Locate the first cell that contains:
    ```python
-   %pip install databricks-sdk==0.36.0 mlflow==2.19.0 databricks-feature-store==0.17.0
+   %pip install mlflow==2.19.0
    ```
 4. **Update it to**:
    ```python
-   %pip install databricks-sdk==0.36.0 mlflow==2.22.1 databricks-feature-store==0.17.0
+   %pip install mlflow==2.22.1
    ```
    (We're updating MLflow from 2.19.0 to 2.22.1 for better compatibility with serverless)
 
