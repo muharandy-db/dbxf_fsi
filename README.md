@@ -639,36 +639,33 @@ Generate executable code cells with explanations.
 In a new cell, click the Assistant again and use this prompt:
 
 ```
-Build a machine learning model to predict customer credit default risk.
+Build a machine learning model to predict customer credit default risk using the dataframe 'df' from the previous step.
+
+The dataframe 'df' already contains:
+- Joined data from credit_bureau_gold and credit_decisioning_features
+- A binary target column "defaulted" (1 for default, 0 for non-default)
 
 Please:
-1. Use the dataset created from joining:
-   - main.dbdemos_fsi_credit_decisioning.credit_bureau_gold
-   - main.dbdemos_fsi_credit_decisioning.credit_decisioning_features
-   On cust_id
+1. Use the existing dataframe 'df' as the input dataset
 
-2. Create the target variable "defaulted":
-   - 1 when credit_bureau_gold.CREDIT_DAY_OVERDUE > 60
-   - 0 otherwise
-
-3. Perform appropriate feature engineering:
+2. Perform appropriate feature engineering:
    - Handle missing values
    - Encode categorical variables if any
-   - Select relevant features for prediction
+   - Select relevant features for prediction (exclude cust_id and other identifiers)
    - Scale numerical features if needed
 
-4. Split data into training (70%) and testing (30%) sets
+3. Split data into training (70%) and testing (30%) sets with stratification
 
-5. Train a binary classification model (Random Forest or XGBoost preferred)
+4. Train a binary classification model (Random Forest or XGBoost preferred)
 
-6. Evaluate the model with these metrics:
+5. Evaluate the model with these metrics:
    - Accuracy, Precision, Recall, F1-score
-   - ROC-AUC curve
+   - ROC-AUC curve and plot
    - Confusion matrix
 
-7. Show feature importance to understand key drivers of default
+6. Show feature importance to understand key drivers of default
 
-8. Register the best model in MLflow with the name "credit_default_prediction"
+7. Register the best model in MLflow with the name "credit_default_prediction"
 
 Use best practices for ML workflows and explain each step.
 ```
