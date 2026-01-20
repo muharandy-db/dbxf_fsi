@@ -257,6 +257,16 @@ def sales_transactions_bronze():
     )
 ```
 
+Alternatively, you can also ask Databricks Assistant to generate the code by giving the following prompt:
+```
+use spark declarative pipeline to load data located in /Volumes/main/dbdemos_fsi_credit_decisioning/credit_raw_data/additional/ into streaming table with the name sales_transaction_bronze
+```
+
+if you want to take the vibe data engineering even further you can highlight the code above then use databricks assistant to add data quality check by adding this prompt
+```
+add data quality check to ensure that total_amount is greater than 0
+```
+
 **Save the notebook** (Cmd+S or Ctrl+S).
 
 ### Step 4.4: Create Silver Layer with Transformations
