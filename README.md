@@ -85,10 +85,14 @@ dbdemos.install('lakehouse-fsi-credit')
 
 ### Step 1.5: Prepare for the Next Steps (During Setup)
 
-While the installation is running, let's prepare a critical notebook modification:
+While the installation is running, let's prepare a critical notebook modification.
+
+**Important Context**: The `lakehouse-fsi-credit` demo was originally created for Databricks classic workspace environments. Since Databricks Community Edition (Free Edition) uses a serverless architecture, we need to make some compatibility updates to ensure the notebooks run smoothly.
+
+Follow these steps to update the notebook:
 
 1. In the left sidebar, navigate to **Workspace → Users → your-email@domain.com → lakehouse-fsi-credit → 03-Data-Science-ML**
-2. Open the notebook: **`03.1-Feature-Engineering-credit-decisioning`**
+2. Open the notebook: **`03.3-Batch-Scoring-credit-decisioning`**
 3. Locate the first cell that contains:
    ```python
    %pip install databricks-sdk==0.36.0 mlflow==2.19.0 databricks-feature-store==0.17.0
@@ -97,7 +101,7 @@ While the installation is running, let's prepare a critical notebook modificatio
    ```python
    %pip install databricks-sdk==0.36.0 mlflow==2.22.1 databricks-feature-store==0.17.0
    ```
-   (We're updating MLflow from 2.19.0 to 2.22.1 for better compatibility)
+   (We're updating MLflow from 2.19.0 to 2.22.1 for better compatibility with serverless)
 
 5. Scroll down to find the cell that reads from the feature store (usually contains):
    ```python
@@ -112,8 +116,9 @@ While the installation is running, let's prepare a critical notebook modificatio
 7. Save the notebook (Cmd+S or Ctrl+S)
 
 **Why these changes?**
-- The newer MLflow version has bug fixes and improvements
-- Removing `.cache()` prevents potential memory issues in Community Edition
+- **Classic vs Serverless**: The demo was built for classic compute clusters, but Community Edition uses serverless compute which has different resource management
+- **MLflow version**: Newer MLflow 2.22.1 has better serverless compatibility and bug fixes
+- **Removing `.cache()`**: Serverless environments handle caching differently; explicit caching can cause memory issues in the Community Edition's resource-constrained environment
 
 ---
 
