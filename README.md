@@ -422,9 +422,8 @@ Spark Declarative Pipelines support various data sources. Here are the most comm
 | **Cloud Files (Autoloader)** | Incrementally load files from cloud storage | CSV, JSON, Parquet, Avro from S3/ADLS/GCS |
 | **Kafka** | Real-time streaming from Kafka topics | Transaction streams, IoT data, clickstreams |
 | **Delta Tables** | Read from existing Delta tables | Reference tables, dimension tables |
-| **Event Hubs** | Azure Event Hubs streaming | Azure-native event streaming |
 | **Kinesis** | AWS Kinesis streams | AWS-native event streaming |
-| **SQL Databases** | JDBC connections to databases | Oracle, SQL Server, PostgreSQL, MySQL |
+| **SQL Databases** | JDBC connections to databases | SQL Server, PostgreSQL, MySQL |
 
 ### Example: Kafka Source
 
